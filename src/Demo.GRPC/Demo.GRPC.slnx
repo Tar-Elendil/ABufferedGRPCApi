@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Demo.GRPC.Integration.Tests/Demo.GRPC.Integration.Tests.csproj" />
+  <Project Path="Demo.GRPC.Endpoint/Demo.GRPC.Endpoint.csproj" />
+</Solution>
