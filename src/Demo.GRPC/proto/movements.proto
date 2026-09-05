@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+service Movements {
+  rpc Add (MovementSaveRequest) returns (MovementSaveReply);
+}
+
+message MovementSaveRequest {
+  string externalRef = 1;
+  string accountId = 2;
+  string currency = 3;
+  double amount = 4;
+  google.protobuf.Timestamp occurredAt = 5;
+  string narration = 6;
+}
+
+message MovementSaveReply {
+  bool success = 1;
+}
