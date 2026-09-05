@@ -1,6 +1,5 @@
 ﻿using Demo.GRPC.Endpoint.Logging;
 using Grpc.Core;
-using Microsoft.Extensions.Logging;
 
 namespace Demo.GRPC.Endpoint.ProtoHandlers;
 

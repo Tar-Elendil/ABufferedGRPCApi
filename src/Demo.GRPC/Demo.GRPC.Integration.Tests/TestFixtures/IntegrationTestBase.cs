@@ -7,7 +7,7 @@ namespace Demo.GRPC.Integration.Tests.TestFixtures;
 public class IntegrationTestBase : IClassFixture<GrpcTestFixture<Startup>>, IDisposable
 {
     private GrpcChannel? _channel;
-    private IDisposable? _testContext;
+    private readonly IDisposable? _testContext;
 
     protected GrpcTestFixture<Startup> Fixture { get; set; }
 
@@ -34,5 +34,7 @@ public class IntegrationTestBase : IClassFixture<GrpcTestFixture<Startup>>, IDis
     {
         _testContext?.Dispose();
         _channel = null;
+
+        GC.SuppressFinalize(this);
     }
 }
