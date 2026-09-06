@@ -10,7 +10,7 @@ public class MovementsHandler(IPublishMessagesAsync<MovementSaveRequest> publish
     public override Task<MovementSaveReply> Add(MovementSaveRequest request, ServerCallContext context)
     {
         ProtoHandlerLogger.LogMovementRequest(logger, request);
-
+        
         if (!validator.Validate(request))
             return Task.FromResult(new MovementSaveReply { Success = false });
 

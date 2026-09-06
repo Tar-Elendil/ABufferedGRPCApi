@@ -4,6 +4,7 @@ services:
     container_name: kafka-broker
     ports:
       - "9092:9092"
+      - "29092:29092"
     environment:
       # Enable KRaft mode by defining process roles (Broker + Controller)
       KAFKA_NODE_ID: 1

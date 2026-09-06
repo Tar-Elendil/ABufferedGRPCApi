@@ -10,10 +10,9 @@ public class SaveMovementTests(GrpcTestFixture<Startup> fixture, ITestOutputHelp
     {
         // Arrange
         var client = new Movements.MovementsClient(Channel);
-        var movementRequest = new MovementSaveRequest { AccountId = "Account1", ExternalRef = "REF_123" };
+        var movementRequest = new MovementSaveRequest { AccountId = "Account1", ExternalRef = Guid.NewGuid().ToString() };
 
         // Act
-
         var response = await client.AddAsync(movementRequest, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert

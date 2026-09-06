@@ -13,7 +13,7 @@ public class Startup
         services.AddSingleton(new ProducerConfig
         {
             // Core Connection
-            BootstrapServers = "localhost:9092",
+            BootstrapServers = "localhost:29092",
             ClientId = "demo-grpc-endpoint",
 
             // Reliability & Durability
@@ -28,7 +28,7 @@ public class Startup
         });
         services.AddSingleton(new SchemaRegistryConfig
         {
-            Url = "http://0.0.0.0:8081"
+            Url = "http://localhost:8081"
         });
         services.AddSingleton<IPublishMessagesAsync<MovementSaveRequest>, MovementsPublisher>();
         services.AddSingleton<IValidateMovementRequests, MovementRequestValidator>();
