@@ -12,7 +12,7 @@ public class QueueHandlerService(SaveMovementHandler handler, ConsumerConfig con
     // Hard coded topics to subscribe to.
     // Use a configuration setup service extension in future
     private readonly List<string> Topics = [
-        ""
+        "Demo.Movements.Save"
     ];
 
     public async Task StartAsync(CancellationToken cancellationToken)

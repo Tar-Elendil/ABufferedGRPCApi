@@ -10,7 +10,7 @@ public class SaveMovementTests(GrpcTestFixture<Startup> fixture, ITestOutputHelp
     {
         // Arrange
         var client = new Movements.MovementsClient(Channel);
-        var movementRequest = new MovementSaveRequest { AccountId = "Account1" };
+        var movementRequest = new MovementSaveRequest { AccountId = "Account1", ExternalRef = "REF_123" };
 
         // Act
 

@@ -13,7 +13,7 @@ public class MovementsPublisher : IPublishMessagesAsync<MovementSaveRequest>, ID
     // Should have configuration builder
     private readonly Dictionary<Type, string> Topics = new()
     {
-        { typeof(MovementSaveRequest), "" }
+        { typeof(MovementSaveRequest), "Demo.Movements.Save" }
     };
 
     public MovementsPublisher(ProducerConfig config, SchemaRegistryConfig schemaRegistryConfig)
@@ -32,7 +32,9 @@ public class MovementsPublisher : IPublishMessagesAsync<MovementSaveRequest>, ID
         }
         return Producer
             .ProduceAsync(topicName, new Message<string, MovementSaveRequest> { Key = key, Value = message })
-            .ContinueWith(t => t.IsCompletedSuccessfully && t.Result.Status == PersistenceStatus.Persisted);
+            .ContinueWith(t => {
+                return t.IsCompletedSuccessfully && t.Result.Status == PersistenceStatus.Persisted;
+            });
     }
 
     public void Dispose()
