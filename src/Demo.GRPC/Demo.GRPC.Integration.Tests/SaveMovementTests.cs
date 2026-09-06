@@ -3,12 +3,8 @@ using Demo.GRPC.Integration.Tests.TestFixtures;
 
 namespace Demo.GRPC.Integration.Tests;
 
-public class SaveMovementTests : IntegrationTestBase
+public class SaveMovementTests(GrpcTestFixture<Startup> fixture, ITestOutputHelper outputHelper) : IntegrationTestBase(fixture, outputHelper)
 {
-    public SaveMovementTests(GrpcTestFixture<Startup> fixture, ITestOutputHelper outputHelper) : base(fixture, outputHelper)
-    {
-    }
-
     [Fact]
     public async Task Returns_Success_On_Movement_Save()
     {
