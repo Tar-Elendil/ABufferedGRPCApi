@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Protobuf Include="..\proto\movements.proto" Link="Protos\movements.proto" />
+	<Protobuf Include="..\proto\account.proto" Link="Protos\account.proto" />
   </ItemGroup>
 
 </Project>

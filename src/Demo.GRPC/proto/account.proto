@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+service Account {
+  rpc Balance (BalanceRequest) returns (BalanceResponse);
+  rpc Statement (StatementExportRequest) returns (StatementExport);
+}
+
+message BalanceRequest {
+    string account = 1;
+}
+
+message BalanceResponse {
+    double balance = 1;
+}
+
+message StatementExportRequest {
+    string account = 1;
+    uint32 index = 2;
+}
+
+message StatementExport {
+    bytes chunk = 1;
+    int64 size = 2;
+    uint32 index = 3;
+}
