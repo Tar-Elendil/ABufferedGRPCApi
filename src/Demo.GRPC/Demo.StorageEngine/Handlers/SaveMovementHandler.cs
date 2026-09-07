@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace Demo.StorageEngine.Handlers;
 
-namespace Demo.StorageEngine.Handlers;
-
-public class SaveMovementHandler
+public class SaveMovementHandler : IProcessMessagesAsync<MovementSaveRequest>
 {
-    public async Task HandleMessage(MovementSaveRequest request)
+    public async Task HandleMessage(MovementSaveRequest message)
     {
 
     }
