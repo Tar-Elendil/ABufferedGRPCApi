@@ -2,12 +2,13 @@
 using Confluent.Kafka.SyncOverAsync;
 using Confluent.SchemaRegistry.Serdes;
 using Demo.Storage.Logging;
+using Demo.StorageEngine.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Demo.StorageEngine.Handlers;
 
-public class QueueHandlerService(SaveMovementHandler handler, ConsumerConfig config, ILogger<QueueHandlerService> logger) : IHostedService, IDisposable
+public class QueueHandlerService(SaveMovementHandler handler, IStoreObjects storageService, IHostApplicationLifetime hostApplicationLifetime, ConsumerConfig config, ILogger<QueueHandlerService> logger) : IHostedService, IDisposable
 {
     // Hard coded topics to subscribe to.
     // Use a configuration setup service extension in future
@@ -17,6 +18,12 @@ public class QueueHandlerService(SaveMovementHandler handler, ConsumerConfig con
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        if (!await storageService.VerifyConnection())
+        {
+            logger.LogCritical("Unable to connect to database");
+            hostApplicationLifetime.StopApplication();
+        }
+
         logger.LogInformation("Starting kafka subscriber");
 
         using var consumer = new ConsumerBuilder<string, MovementSaveRequest>(config)

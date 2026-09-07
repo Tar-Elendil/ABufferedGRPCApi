@@ -1,9 +1,21 @@
-﻿namespace Demo.StorageEngine.Handlers;
+﻿using Demo.StorageEngine.Models;
+using Demo.StorageEngine.Services;
 
-public class SaveMovementHandler : IProcessMessagesAsync<MovementSaveRequest>
+namespace Demo.StorageEngine.Handlers;
+
+public class SaveMovementHandler(IStoreObjects storageService) : IProcessMessagesAsync<MovementSaveRequest>
 {
-    public async Task HandleMessage(MovementSaveRequest message)
+    public Task HandleMessage(MovementSaveRequest message)
     {
-
+        var movement = new Models.Movement
+        {
+            AccountId = message.AccountId,
+            ExternalRef = message.ExternalRef,
+            Currency = message.Currency,
+            Amount = message.Amount,
+            OccurredAt = message.OccurredAt.ToDateTime(),
+            Narration = message.Narration,
+        };
+        return storageService.Save(movement);
     }
 }
