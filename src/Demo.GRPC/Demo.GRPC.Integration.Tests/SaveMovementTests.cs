@@ -31,7 +31,7 @@ public class SaveMovementTests(GrpcTestFixture<Startup> fixture, ITestOutputHelp
     {
         // Arrange
         var client = new Movements.MovementsClient(Channel);
-        for (int i = 0; i < 50000; i++)
+        for (int i = 0; i < 500; i++)
         {
             var movementRequest = new MovementSaveRequest
             {

@@ -17,14 +17,12 @@ message BalanceResponse {
 
 message StatementExportRequest {
     string account_id = 1;
-    uint32 index = 2;
-    google.protobuf.Timestamp start = 3;
-    google.protobuf.Timestamp end = 4;
+    google.protobuf.Timestamp start = 2;
+    google.protobuf.Timestamp end = 3;
 }
 
 message StatementExport {
     bytes chunk = 1;
-    int64 size = 2;
-    uint32 index = 3;
-    bool is_done = 4;
+    uint64 size = 2;
+    uint32 page = 3;
 }

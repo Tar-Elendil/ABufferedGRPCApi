@@ -9,3 +9,5 @@ CREATE TABLE Movements (
     narration TEXT,
     PRIMARY KEY (account_id, external_ref)
 );
+
+CREATE INDEX occurred_at ON Movements (occurred_at);

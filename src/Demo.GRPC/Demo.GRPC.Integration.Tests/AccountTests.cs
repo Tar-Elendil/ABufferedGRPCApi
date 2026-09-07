@@ -32,12 +32,10 @@ public class AccountTests(GrpcTestFixture<Startup> fixture, ITestOutputHelper ou
         var statementRequest = new StatementExportRequest
         {
             AccountId = "Account1",
-            Index = 0,
             Start = Timestamp.FromDateTime(DateTime.UtcNow.AddHours(-12)),
             End = Timestamp.FromDateTime(DateTime.UtcNow.AddHours(+12)),
         };
         var filePath = "export.csv";
-
 
         // Act
         using var response = client.Statement(statementRequest, cancellationToken: TestContext.Current.CancellationToken);
@@ -50,19 +48,15 @@ public class AccountTests(GrpcTestFixture<Startup> fixture, ITestOutputHelper ou
             // Read the stream sequentially until completion
             await foreach (var page in response.ResponseStream.ReadAllAsync(TestContext.Current.CancellationToken))
             {
+                Assert.True(page.Size > 0);
                 await fileStream.WriteAsync(page.Chunk.Memory, TestContext.Current.CancellationToken);
             }
 
             Console.WriteLine("Download completed successfully!");
         }
-        catch (RpcException ex) when (ex.StatusCode == StatusCode.NotFound)
-        {
-            Console.WriteLine("Error: The requested file does not exist on the server.");
-        }
         catch (Exception ex)
         {
             Console.WriteLine($"An error occurred: {ex.Message}");
         }
-
     }
 }

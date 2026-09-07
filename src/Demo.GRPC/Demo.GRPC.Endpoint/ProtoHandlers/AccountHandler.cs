@@ -1,10 +1,7 @@
-﻿using Demo.GRPC.Endpoint.Models;
-using Demo.GRPC.Endpoint.Services;
+﻿using Demo.GRPC.Endpoint.Services;
 using Grpc.Core;
 using System.Globalization;
 using System.Text;
-using static Confluent.Kafka.ConfigPropertyNames;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Demo.GRPC.Endpoint.ProtoHandlers;
 
@@ -24,12 +21,15 @@ public class AccountHandler(IReadMovements movementsReader) : Account.AccountBas
     {
         // 64 KB chunk size is a balanced default for gRPC streams
         const int bufferSize = 64 * 1024;
-        var movements = movementsReader.ExportAccount(request.AccountId);
+        var start = request.Start?.ToDateTime() ?? DateTime.MinValue;
+        var end = request.End?.ToDateTime() ?? DateTime.MaxValue;
+        var movements = movementsReader.ExportAccount(request.AccountId, start, end);
 
         using var ms = new MemoryStream();
 
         // Header Row
         await ms.WriteAsync(Encoding.UTF8.GetBytes("AccountId,ExternalRef,Currency,Amount,OccurredAt,Narration\n"));
+        uint page = 0;
 
         await foreach (var item in movements)
         {
@@ -41,7 +41,9 @@ public class AccountHandler(IReadMovements movementsReader) : Account.AccountBas
                 // Convert buffer chunk to Google.Protobuf.ByteString
                 var response = new StatementExport
                 {
-                    Chunk = Google.Protobuf.ByteString.CopyFrom(ms.GetBuffer())
+                    Chunk = Google.Protobuf.ByteString.CopyFrom(ms.GetBuffer()),
+                    Size = (ulong)ms.Length,
+                    Page = page++
                 };
 
                 // Stream the chunk to the client
@@ -57,15 +59,18 @@ public class AccountHandler(IReadMovements movementsReader) : Account.AccountBas
             // Send final chunk
             var response = new StatementExport
             {
-                Chunk = await Google.Protobuf.ByteString.FromStreamAsync(ms)
+                Chunk = Google.Protobuf.ByteString.CopyFrom(ms.GetBuffer()),
+                Size = (ulong)ms.Length,
+                Page = page++
             };
 
             await responseStream.WriteAsync(response);
         }
     }
+
     private static string EscapeNumeric(double value)
     {
-        return value.ToString(NumberFormatInfo.InvariantInfo);
+        return value.ToString(NumberFormatInfo.InvariantInfo).Replace(",", string.Empty);
     }
     private static string EscapeCsvField(string field)
     {

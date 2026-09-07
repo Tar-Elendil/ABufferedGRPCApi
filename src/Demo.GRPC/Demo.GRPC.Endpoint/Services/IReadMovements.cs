@@ -5,5 +5,5 @@ namespace Demo.GRPC.Endpoint.Services;
 public interface IReadMovements
 {
     Task<double> CheckBalance(string accountId);
-    IAsyncEnumerable<Movement> ExportAccount(string accountId);
+    IAsyncEnumerable<Movement> ExportAccount(string accountId, DateTime start, DateTime end);
 }

@@ -14,15 +14,16 @@ public class MovementsReader(Db db, ILogger<MovementsReader> logger) : IDisposab
             .SumAsync(m => m.Amount);
     }
 
-    public IAsyncEnumerable<Movement> ExportAccount(string accountId)
+    public IAsyncEnumerable<Movement> ExportAccount(string accountId, DateTime start, DateTime end)
     {
         return db.Movements
             .Where(m => string.Equals(m.AccountId, accountId))
+            .Where(m => m.OccurredAt >= start && m.OccurredAt <= end)
             .AsNoTracking()
             .AsAsyncEnumerable();
     }
 
-    protected virtual void Dispose(bool disposing)
+    protected void Dispose(bool disposing)
     {
         if (!disposedValue)
         {
