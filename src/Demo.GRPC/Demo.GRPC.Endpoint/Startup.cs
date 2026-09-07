@@ -2,6 +2,7 @@
 using Confluent.SchemaRegistry;
 using Demo.GRPC.Endpoint.ProtoHandlers;
 using Demo.GRPC.Endpoint.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.GRPC.Endpoint;
 
@@ -32,6 +33,13 @@ public class Startup
         });
         services.AddSingleton<IPublishMessagesAsync<MovementSaveRequest>, MovementsPublisher>();
         services.AddSingleton<IValidateMovementRequests, MovementRequestValidator>();
+        services.AddDbContext<Db>(options =>
+        {
+            options
+            .UseNpgsql("Host=localhost;Port=5432;Username=admin;Password=example;Database=demo")
+            .UseSnakeCaseNamingConvention();
+        });
+        services.AddSingleton<IReadMovements, MovementsReader>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -46,6 +54,7 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapGrpcService<MovementsHandler>();
+            endpoints.MapGrpcService<AccountHandler>();
         });
     }
 }

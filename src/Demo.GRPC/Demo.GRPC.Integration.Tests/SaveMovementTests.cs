@@ -25,4 +25,24 @@ public class SaveMovementTests(GrpcTestFixture<Startup> fixture, ITestOutputHelp
         // Assert
         Assert.True(response.Success);
     }
+
+    [Fact]
+    public async Task Can_Save_Multiple_Movements()
+    {
+        // Arrange
+        var client = new Movements.MovementsClient(Channel);
+        for (int i = 0; i < 100; i++)
+        {
+            var movementRequest = new MovementSaveRequest
+            {
+                AccountId = "Account1",
+                ExternalRef = Guid.NewGuid().ToString(),
+                Amount = Random.Shared.Next(1, 100),
+                Currency = "ZAR",
+                OccurredAt = Timestamp.FromDateTime(DateTime.UtcNow.AddHours(-Random.Shared.Next(1, 8))),
+                Narration = ""
+            };
+            await client.AddAsync(movementRequest, cancellationToken: TestContext.Current.CancellationToken);
+        }
+    }
 }

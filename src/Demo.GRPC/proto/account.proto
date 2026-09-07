@@ -6,7 +6,7 @@ service Account {
 }
 
 message BalanceRequest {
-    string account = 1;
+    string account_id = 1;
 }
 
 message BalanceResponse {
@@ -14,7 +14,7 @@ message BalanceResponse {
 }
 
 message StatementExportRequest {
-    string account = 1;
+    string account_id = 1;
     uint32 index = 2;
 }
 
@@ -22,4 +22,5 @@ message StatementExport {
     bytes chunk = 1;
     int64 size = 2;
     uint32 index = 3;
+    bool is_done = 4;
 }

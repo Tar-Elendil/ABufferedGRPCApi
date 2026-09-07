@@ -1,5 +1,7 @@
 <Solution>
   <Project Path="Demo.GRPC.Endpoint/Demo.GRPC.Endpoint.csproj" />
   <Project Path="Demo.GRPC.Integration.Tests/Demo.GRPC.Integration.Tests.csproj" />
+  <Project Path="Demo.GRPC.Tests/Demo.GRPC.Tests.csproj" Id="7ab040e5-987e-494b-8b62-ba3dc9305537" />
+  <Project Path="Demo.StorageEngine.Tests/Demo.StorageEngine.Tests.csproj" Id="f876ab1c-7810-4ac9-961b-e68f8cc755ab" />
   <Project Path="Demo.StorageEngine/Demo.StorageEngine.csproj" Id="a945c239-1d6a-46c9-876c-386b45652e00" />
 </Solution>

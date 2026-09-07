@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Demo.StorageEngine.Models;
+namespace Demo.GRPC.Endpoint.Models;
 
 [PrimaryKey(nameof(AccountId), nameof(ExternalRef))]
 public class Movement : IAmADatabaseObject
