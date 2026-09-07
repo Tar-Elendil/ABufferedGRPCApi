@@ -39,7 +39,7 @@ public class Startup
             .UseNpgsql("Host=localhost;Port=5432;Username=admin;Password=example;Database=demo")
             .UseSnakeCaseNamingConvention();
         });
-        services.AddSingleton<IReadMovements, MovementsReader>();
+        services.AddScoped<IReadMovements, MovementsReader>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

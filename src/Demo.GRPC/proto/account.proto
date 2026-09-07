@@ -1,8 +1,10 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 service Account {
   rpc Balance (BalanceRequest) returns (BalanceResponse);
-  rpc Statement (StatementExportRequest) returns (StatementExport);
+  rpc Statement (StatementExportRequest) returns (stream StatementExport);
 }
 
 message BalanceRequest {
@@ -16,6 +18,8 @@ message BalanceResponse {
 message StatementExportRequest {
     string account_id = 1;
     uint32 index = 2;
+    google.protobuf.Timestamp start = 3;
+    google.protobuf.Timestamp end = 4;
 }
 
 message StatementExport {
