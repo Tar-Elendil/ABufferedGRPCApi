@@ -7,7 +7,7 @@ public class SaveMovementHandler(IStoreObjects storageService) : IProcessMessage
 {
     public Task HandleMessage(MovementSaveRequest message)
     {
-        var movement = new Models.Movement
+        var movement = new Movement
         {
             AccountId = message.AccountId,
             ExternalRef = message.ExternalRef,

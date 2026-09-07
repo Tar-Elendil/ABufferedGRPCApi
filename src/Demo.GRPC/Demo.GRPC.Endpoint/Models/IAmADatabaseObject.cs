@@ -1,4 +1,4 @@
-﻿namespace Demo.StorageEngine.Models;
+﻿namespace Demo.GRPC.Endpoint.Models;
 
 public interface IAmADatabaseObject
 {
