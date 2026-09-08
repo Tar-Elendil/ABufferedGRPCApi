@@ -1,4 +1,4 @@
-\c demo
+USE demo;
 
 CREATE TABLE Movements (
     account_id TEXT NOT NULL,
@@ -9,3 +9,5 @@ CREATE TABLE Movements (
     narration TEXT,
     PRIMARY KEY (account_id, external_ref)
 );
+
+CREATE INDEX occurred_at ON Movements (occurred_at);

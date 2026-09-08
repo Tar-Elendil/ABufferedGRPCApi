@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Demo.GRPC.Endpoint.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.GRPC.Endpoint.Services;
 
@@ -13,7 +14,17 @@ public class MovementsReader(Db db, ILogger<MovementsReader> logger) : IDisposab
             .SumAsync(m => m.Amount);
     }
 
-    protected virtual void Dispose(bool disposing)
+    public IAsyncEnumerable<Movement> ExportAccount(string accountId, DateTime start, DateTime end)
+    {
+        return db.Movements
+            .Where(m => string.Equals(m.AccountId, accountId))
+            .Where(m => m.OccurredAt >= start && m.OccurredAt <= end)
+            .OrderBy(m => m.OccurredAt)
+            .AsNoTracking()
+            .AsAsyncEnumerable();
+    }
+
+    protected void Dispose(bool disposing)
     {
         if (!disposedValue)
         {
