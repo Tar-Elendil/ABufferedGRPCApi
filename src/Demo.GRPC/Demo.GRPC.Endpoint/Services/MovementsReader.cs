@@ -19,6 +19,7 @@ public class MovementsReader(Db db, ILogger<MovementsReader> logger) : IDisposab
         return db.Movements
             .Where(m => string.Equals(m.AccountId, accountId))
             .Where(m => m.OccurredAt >= start && m.OccurredAt <= end)
+            .OrderBy(m => m.OccurredAt)
             .AsNoTracking()
             .AsAsyncEnumerable();
     }

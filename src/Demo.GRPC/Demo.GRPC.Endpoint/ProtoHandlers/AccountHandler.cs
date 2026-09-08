@@ -28,13 +28,15 @@ public class AccountHandler(IReadMovements movementsReader) : Account.AccountBas
         using var ms = new MemoryStream();
 
         // Header Row
-        await ms.WriteAsync(Encoding.UTF8.GetBytes("AccountId,ExternalRef,Currency,Amount,OccurredAt,Narration\n"));
+        await ms.WriteAsync(Encoding.UTF8.GetBytes("AccountId,ExternalRef,Currency,Amount,OccurredAt,RunningTotal,Narration\n"));
         uint page = 0;
+        double runningTotal = 0;
 
         await foreach (var item in movements)
         {
             // escape values if they contain commas or quotes
-            var line = $"{EscapeCsvField(item.AccountId)},{EscapeCsvField(item.ExternalRef)},{item.Currency},{EscapeNumeric(item.Amount)},{item.OccurredAt},{EscapeCsvField(item.Narration)}\n";
+            runningTotal += item.Amount;
+            var line = $"{EscapeCsvField(item.AccountId)},{EscapeCsvField(item.ExternalRef)},{item.Currency},{EscapeNumeric(item.Amount)},{item.OccurredAt},{EscapeNumeric(runningTotal)},{EscapeCsvField(item.Narration)}\n";
             var strLine = Encoding.UTF8.GetBytes(line);
             if (ms.Length + strLine.Length > bufferSize)
             {
