@@ -3,7 +3,7 @@ using Demo.StorageEngine.Services;
 
 namespace Demo.StorageEngine.Handlers;
 
-public class SaveMovementHandler(IStoreObjects storageService) : IProcessMessagesAsync<MovementSaveRequest>
+public class SaveMovementHandler(IStoreMovements storageService) : IProcessMessagesAsync<MovementSaveRequest>
 {
     public Task HandleMessage(MovementSaveRequest message)
     {
