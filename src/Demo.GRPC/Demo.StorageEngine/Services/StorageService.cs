@@ -17,7 +17,6 @@ public class StorageService(Db db, ILogger<StorageService> logger) : IDisposable
         catch (Exception e)
         {
             logger.LogError(e, "Unable to write to database");
-            throw;
         }
     }
 
