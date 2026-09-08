@@ -1,16 +1,23 @@
 ﻿using Demo.StorageEngine.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Demo.StorageEngine.Services;
 
-public class StorageService(Db db, ILogger<StorageService> logger) : IDisposable, IStoreObjects
+public class MovementsStorageService(Db db, ILogger<MovementsStorageService> logger) : IDisposable, IStoreMovements
 {
     private bool disposedValue;
 
-    public async Task Save<T>(T obj) where T : class, IAmADatabaseObject
+    public async Task Save(Movement obj)
     {
         try
         {
+            if (await db.Movements.AsNoTracking()
+                .AnyAsync(x => string.Equals(x.AccountId, obj.AccountId) 
+                && string.Equals(x.ExternalRef, obj.ExternalRef)))
+            {
+                return;
+            }
             db.Add(obj);
             await db.SaveChangesAsync();
         }

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Demo.StorageEngine.Handlers;
 
-public class QueueHandlerService(SaveMovementHandler handler, IStoreObjects storageService, IHostApplicationLifetime hostApplicationLifetime, ConsumerConfig config, ILogger<QueueHandlerService> logger) : IHostedService, IDisposable
+public class QueueHandlerService(SaveMovementHandler handler, IStoreMovements storageService, IHostApplicationLifetime hostApplicationLifetime, ConsumerConfig config, ILogger<QueueHandlerService> logger) : IHostedService, IDisposable
 {
     // Hard coded topics to subscribe to.
     // Use a configuration setup service extension in future

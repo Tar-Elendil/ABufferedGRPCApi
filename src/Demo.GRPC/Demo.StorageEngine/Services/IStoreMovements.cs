@@ -2,8 +2,8 @@
 
 namespace Demo.StorageEngine.Services;
 
-public interface IStoreObjects
+public interface IStoreMovements
 {
     Task<bool> VerifyConnection();
-    Task Save<T>(T obj) where T : class, IAmADatabaseObject;
+    Task Save(Movement obj);
 }

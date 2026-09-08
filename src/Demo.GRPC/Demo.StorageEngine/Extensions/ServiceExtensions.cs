@@ -33,7 +33,7 @@ public static class ServiceExtensions
                 EnableAutoCommit = true,
                 EnableAutoOffsetStore = true
             });
-            services.AddSingleton<IStoreObjects, StorageService>();
+            services.AddScoped<IStoreMovements, MovementsStorageService>();
             services.AddSingleton<SaveMovementHandler>();
             services.AddHostedService<QueueHandlerService>();
         });
