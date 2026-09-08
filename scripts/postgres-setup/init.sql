@@ -1,4 +1,4 @@
-\c demo
+USE demo;
 
 CREATE TABLE Movements (
     account_id TEXT NOT NULL,
